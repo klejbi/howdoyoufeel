@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
               elevation: 0,
             ),
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Emotions()),
               );
