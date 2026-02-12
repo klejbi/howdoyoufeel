@@ -30,9 +30,9 @@ class HomePage extends StatelessWidget {
               elevation: 0,
             ),
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Emotions()),
+                MaterialPageRoute(builder: (context) => const EmotionsPage()),
               );
             },
             child: const Text(

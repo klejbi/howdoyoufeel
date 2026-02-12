@@ -1,31 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/Translate.dart';
+import 'package:namer_app/emotion_entity.dart';
 
+const emotions = [
+  EmotionEntity(imagePath: 'assets/sad.png', name: 'sad'),
+  EmotionEntity(imagePath: 'assets/pic1.png', name: 'angry'),
+  EmotionEntity(name: 'happy', imagePath: 'assets/hap.png'),
+  EmotionEntity(name: 'thankful', imagePath: 'assets/hap.png'),
+  EmotionEntity(name: 'grateful', imagePath: 'assets/hap.png'),
+  EmotionEntity(name: 'proud', imagePath: 'assets/hap.png'),
+];
 
-class Emotions extends StatefulWidget {
-  const Emotions({super.key});
+class EmotionsPage extends StatefulWidget {
+  const EmotionsPage({super.key});
 
   @override
-  State<Emotions> createState() => _EmotionsState();
+  State<EmotionsPage> createState() => _EmotionsState();
 }
 
-class _EmotionsState extends State<Emotions> {
-  String? selectedEmotion;
+class _EmotionsState extends State<EmotionsPage> {
+  EmotionEntity? selectedEmotion;
 
-  Widget _buildEmotionButton(String text) {
-    bool isSelected = selectedEmotion == text;
+  Widget _buildEmotionButton(EmotionEntity emotion) {
+    bool isSelected = selectedEmotion == emotion;
 
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedEmotion = text;
+          selectedEmotion = emotion;
         });
-        Future.delayed(const Duration(milliseconds: 250), () {
+        Future.delayed(const Duration(milliseconds: 2000), () {
           if (!mounted) return;
+
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Translate(selectedEmotion: text),
+              builder: (context) => TranslatePage(emotionEntity: emotion),
             ),
           );
         });
@@ -50,7 +60,7 @@ class _EmotionsState extends State<Emotions> {
             ),
           ),
           child: Text(
-            text,
+            emotion.name,
             style: TextStyle(
               fontSize: 32.0,
               color: isSelected ? Colors.white : Colors.black,
@@ -65,20 +75,12 @@ class _EmotionsState extends State<Emotions> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(240, 240, 240, 1.0),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
-        children: <Widget>[
-          _buildEmotionButton('sad'),
-          _buildEmotionButton('angry'),
-          _buildEmotionButton('happy'),
-          _buildEmotionButton('thankful'),
-          _buildEmotionButton('grateful'),
-          _buildEmotionButton('proud'),
-        ],
+        children: emotions
+            .map((emotion) => _buildEmotionButton(emotion))
+            .toList(),
       ),
     );
   }
